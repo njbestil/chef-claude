@@ -184,5 +184,6 @@ function recipeApiPlugin(mode) {
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => ({
+    base: mode === 'production' ? '/chef-claude/' : '/',
     plugins: [react(), recipeApiPlugin(mode)],
 }))
