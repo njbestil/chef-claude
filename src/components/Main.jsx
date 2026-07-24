@@ -28,13 +28,24 @@ export default function Main() {
         setRecipe(null)
 
         try {
-            const response = await fetch('/api/recipe', {
+            const recipeApiUrl = import.meta.env.VITE_RECIPE_API_URL || '/api/recipe'
+            const response = await fetch(recipeApiUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ ingredients }),
             })
+
+            const contentType = response.headers.get('content-type') || ''
+
+            if (!contentType.includes('application/json')) {
+                throw new Error(
+                    recipeApiUrl === '/api/recipe'
+                        ? 'Recipe generation needs a backend API. GitHub Pages only hosts the static app, so /api/recipe is not available there.'
+                        : 'Recipe generation failed because the API did not return JSON.'
+                )
+            }
 
             const data = await response.json()
 
