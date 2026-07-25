@@ -1,11 +1,20 @@
+import { useEffect, useRef } from 'react'
 import ClaudeRecipe from './ClaudeRecipe'
 
 export default function IngredientsList(props) {
+    const recipeRef = useRef(null)
+
     const ingredientsListItems = props.ingredients.map((ingredient, index) => (
         <li key={index}>{ingredient}</li>
     ))
 
     const hasEnoughIngredients = props.ingredients.length >= 4
+
+    useEffect(() => {
+        if (props.recipe) {
+            recipeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }
+    }, [props.recipe])
 
     return (
         <>
@@ -44,7 +53,7 @@ export default function IngredientsList(props) {
                     }
 
                     {props.recipe &&
-                        <ClaudeRecipe recipe={props.recipe} />
+                        <ClaudeRecipe recipe={props.recipe} recipeRef={recipeRef} />
                     }
                 </section>
             }

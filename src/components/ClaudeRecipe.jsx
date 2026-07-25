@@ -1,6 +1,6 @@
-export default function ClaudeRecipe({ recipe }) {
+export default function ClaudeRecipe({ recipe, recipeRef }) {
     return (
-        <article className="generated-recipe">
+        <article className="generated-recipe" ref={recipeRef}>
             <h1>{recipe.title}</h1>
             <p>{recipe.description}</p>
 
